@@ -9,4 +9,5 @@ Repositorio para proyecto de la segunda versión de CMYK, para el grupo color ro
  * _Derlys Dominguez_
  * _Alan Rios_
  * _Santiago Alvarez Olivera_
+  * _Lupis A_
  

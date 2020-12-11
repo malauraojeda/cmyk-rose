@@ -11,23 +11,24 @@ const obtenerUbicacionActual = function () {
 };
 
 //Temperatura en celsius
-const FahrenheitToCelsius = function (k) {
-  return Math.trunc((celcius = k - 273.15));
+const kelvinToCelsius = function (k) {
+  return Math.trunc(k - 273.15);
 };
 
 //insertar al DOM la ciudad y la temperatura
 const insertingDOM = function (data) {
   city.textContent = `Usted está en la ciudad de ${data.name}, ${
     data.sys.country
-  }, la temperatura es:${FahrenheitToCelsius(data.main.temp)} ºC`;
+  }, la temperatura es:${kelvinToCelsius(data.main.temp)} ºC`;
 };
 
 //consulta clima
-const clima = async function (data) {
+const clima = async function (lat, lon) {
   const resClima = await fetch(
-    `http://api.openweathermap.org/data/2.5/weather?q=${data.city}&appid=ad226a44dedb3b77340424c5a27e237d`
+    `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=ad226a44dedb3b77340424c5a27e237d`
   );
 
+  if (!resClima.ok) throw new Error('Error en la busqueda del clima');
   const dataClima = await resClima.json();
   console.log(dataClima);
   insertingDOM(dataClima);
@@ -37,17 +38,8 @@ const clima = async function (data) {
 const ciudadDondeEstoy = async function () {
   try {
     const pos = await obtenerUbicacionActual();
-    // console.log(pos);
-    const { latitude: lat, longitude: lng } = pos.coords;
-    const resGeo = await fetch(`https://geocode.xyz/${lat},${lng}?geoit=json`);
-
-    if (!resGeo.ok) throw new Error('Problemas obteniendo tu ciudad');
-
-    const dataGeo = await resGeo.json();
-
-    clima(dataGeo);
-
-    console.log(dataGeo.city);
+    const { latitude: lat, longitude: lon } = pos.coords;
+    clima(lat, lon);
   } catch (err) {
     console.error(err.message);
   }

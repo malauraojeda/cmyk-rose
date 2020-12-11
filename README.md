@@ -2,7 +2,7 @@
 
 Repositorio para proyecto de la segunda versión de CMYK, para el grupo color rose.
 
-## ***Integrantes*** :student:
+## ***Integrantes*** :student: 🌹
 
  * _Daniel Alfaro_
  * _Maria Laura Ojeda_

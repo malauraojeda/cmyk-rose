@@ -25,22 +25,21 @@ const insertarDOM = function (data) {
 
 //consulta clima
 const clima = async function (lat, lon) {
-  const resClima = await fetch(
-    `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=ad226a44dedb3b77340424c5a27e237d`
-  );
+  try {
+    const resClima = await fetch(
+      `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=ad226a44dedb3b77340424c5a27e237d`
+    );
 
-  if (!resClima.ok) throw new Error('Error en la busqueda del clima');
-  const dataClima = await resClima.json();
-  console.log(dataClima);
-  insertarDOM(dataClima);
+    if (!resClima.ok) throw new Error('Error en la busqueda del clima');
+    const dataClima = await resClima.json();
+    console.log(dataClima);
+    insertarDOM(dataClima);
+  } catch (err) {
+    mostrarError(`${err.message}`);
+  }
 };
 
 //Mostrar error
-// const mostrarError = function (err) {
-//   ciudad.style.display = 'none';
-//   ciudad.textContent = err;
-// };
-//mostrar error
 const mostrarError = function (msj) {
   ciudad.textContent = `${msj}`;
 };
@@ -52,7 +51,7 @@ const ciudadDondeEstoy = async function () {
     const { latitude: lat, longitude: lon } = pos.coords;
     clima(lat, lon);
   } catch (err) {
-    mostrarError(err.message);
+    mostrarError(err);
   }
 };
 ciudadDondeEstoy();

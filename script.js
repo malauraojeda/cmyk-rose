@@ -1,4 +1,5 @@
-const city = document.querySelector('.titulo');
+const ciudad = document.querySelector('.titulo');
+const containerTitulo = document.querySelector('.container__titulo');
 
 //Ubicación actual con geolocation y luego con geocode
 const obtenerUbicacionActual = function () {
@@ -11,15 +12,15 @@ const obtenerUbicacionActual = function () {
 };
 
 //Temperatura en celsius
-const kelvinToCelsius = function (k) {
+const kelvinACelsius = function (k) {
   return Math.trunc(k - 273.15);
 };
 
 //insertar al DOM la ciudad y la temperatura
-const insertingDOM = function (data) {
-  city.textContent = `Usted está en la ciudad de ${data.name}, ${
+const insertarDOM = function (data) {
+  ciudad.textContent = `Usted está en la ciudad de ${data.name}, ${
     data.sys.country
-  }, la temperatura es:${kelvinToCelsius(data.main.temp)} ºC`;
+  }, la temperatura es:${kelvinACelsius(data.main.temp)} ºC`;
 };
 
 //consulta clima
@@ -31,7 +32,17 @@ const clima = async function (lat, lon) {
   if (!resClima.ok) throw new Error('Error en la busqueda del clima');
   const dataClima = await resClima.json();
   console.log(dataClima);
-  insertingDOM(dataClima);
+  insertarDOM(dataClima);
+};
+
+//Mostrar error
+// const mostrarError = function (err) {
+//   ciudad.style.display = 'none';
+//   ciudad.textContent = err;
+// };
+//mostrar error
+const mostrarError = function (msj) {
+  ciudad.textContent = `${msj}`;
 };
 
 //consulta ciudad
@@ -41,7 +52,7 @@ const ciudadDondeEstoy = async function () {
     const { latitude: lat, longitude: lon } = pos.coords;
     clima(lat, lon);
   } catch (err) {
-    console.error(err.message);
+    mostrarError(err.message);
   }
 };
 ciudadDondeEstoy();
